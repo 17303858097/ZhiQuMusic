@@ -1,0 +1,140 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+//使用kapt依赖rxhttp-compiler，需要导入kapt插件
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "30.0.1"
+
+    defaultConfig {
+        applicationId "com.jqz.zhiqumusic"
+        minSdkVersion 22
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [
+                        rxhttp_okhttp: '4.7.2',
+//                        rxhttp_package: 'rxhttp',  //设置RxHttp相关类的包名，多module依赖时，需要配置不同的包名
+                        rxhttp_rxjava: 'rxjava2'     //可传入rxjava2、rxjava3
+                ]
+            }
+        }
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+        }
+
+        ndk {
+            // 设置支持的SO库架构
+            abiFilters 'armeabi', 'armeabi-v7a'//, 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
+        }
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    //配置签名
+    //创建号的签名文件，可以直接放在app目录下
+    //配置签名文件，放在module gradle文件下的android {括号中}
+    signingConfigs {
+
+        debug {//debug模式下启动的签名
+            keyAlias 'key0'
+            keyPassword '111111'
+            storeFile file('zhiqu.jks')//签名文件的路径，在app目录下可以直接使用文件名，其他地方，则需要找到文件路径
+            storePassword '111111'
+        }
+
+        release {//release模式下启动的签名
+            keyAlias 'key0'
+            keyPassword '111111'
+            storeFile file('zhiqu.jks')
+            storePassword '111111'
+        }
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.core:core-ktx:1.3.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    //沉浸式
+    implementation 'com.readystatesoftware.systembartint:systembartint:1.0.3'
+    //刘海屏水滴平屏幕适配
+    implementation 'com.github.smarxpan:NotchScreenTool:0.0.1'
+
+    //侧滑菜单，tablayout，recyclerview都包含
+    implementation 'com.android.support:design:29.0.2'
+
+    implementation 'com.github.bumptech.glide:glide:4.9.0'//加载图片
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'  //自定义缓存位置
+
+    //SmartRefreshLayout，RecyclerView自动刷新，自动加载更多，第一种
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.2'  //1.0.5及以前版本的老用户升级需谨慎，API改动过大
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.2'//RecyclerView特殊的header布局
+
+    //auko插件
+    implementation "org.jetbrains.anko:anko:0.10.8"//可以在Kotlin中更简便的使用toast 和startIntent跳转
+
+    /**
+     * RxHttp框架所需依赖
+     */
+
+    //以下3个为必须，
+    implementation 'com.ljx.rxhttp:rxhttp:2.2.7'
+    implementation 'com.squareup.okhttp3:okhttp:4.7.2' //rxhttp v2.2.2版本起，需要手动依赖okhttp
+    //如果是Java中使用则将kapt替换为annotationProcessor
+    kapt 'com.ljx.rxhttp:rxhttp-compiler:2.2.7' //生成RxHttp类，非kotlin项目，请使用annotationProcessor代替kapt
+
+    implementation 'com.ljx.rxlife:rxlife-coroutine:2.0.0' //管理协程生命周期，页面销毁，关闭请求
+
+    //rxjava2   (RxJava2/Rxjava3二选一，使用asXxx方法时必须)
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.14'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation 'com.ljx.rxlife2:rxlife-rxjava:2.0.0' //管理RxJava2生命周期，页面销毁，关闭请求
+    //非必须
+    implementation 'com.ljx.rxhttp:converter-fastjson:2.2.7'
+    //腾讯Bugly
+    implementation 'com.tencent.bugly:crashreport:latest.release'
+    //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.1.9
+    implementation 'com.tencent.bugly:nativecrashreport:latest.release'
+    //其中latest.release指代最新Bugly NDK版本号，也可以指定明确的版本号，例如3.0
+
+    //友盟
+    implementation 'com.umeng.umsdk:common:9.1.0' // (必选)
+    implementation 'com.umeng.umsdk:asms:1.1.3' // asms包依赖(必选)
+    implementation 'com.umeng.umsdk:crash:0.0.4' // native crash包依赖(必选)
+    implementation 'com.umeng.umsdk:oaid_mi:1.0.0' // (可选)
+
+
+    //协程
+    //                                       👇 依赖协程核心库
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines"
+    //                                       👇 依赖当前平台所对应的平台库
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutines"
+    implementation project(path: ':mvplibrary')
+
+    //适配器
+    api "com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.50"
+
+    //exeplayer播放器
+    implementation 'com.shuyu:GSYVideoPlayer:5.0.1'//https://www.wanandroid.com/blog/show/2188
+}

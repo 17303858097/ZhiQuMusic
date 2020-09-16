@@ -1,0 +1,4 @@
+rootProject.name='ZhiQuMusic'
+include ':app', ':baselibrary'
+include ':mvplibrary'
+include ':mylirary'

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.VideoShowActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"
+        android:background="#F1F1F1"
+        android:id="@+id/videoShowTool"
+        app:navigationIcon="@mipmap/colose_left"
+        app:menu="@menu/show_activity_menu"
+        >
+
+        <TextView
+            android:id="@+id/videoShowTvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="宝宝快睡觉"
+            android:layout_gravity="center"
+            android:textColor="#2ADE8A"
+            android:textSize="@dimen/sp_15"
+            />
+    </androidx.appcompat.widget.Toolbar>
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/videoShowShuaxin"
+        >
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
+            android:id="@+id/videoData_header"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_80"/>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/videoShowRlv"
+            />
+
+        <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/videoData_footer"
+            />
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+
+</LinearLayout>

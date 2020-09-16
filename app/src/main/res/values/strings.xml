@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">儿歌点点KT</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="ceshi">网络测试</string>
+    <string name="find_et_search">搜索</string>
+    <string name="video">宝宝看</string>
+    <string name="audio">宝宝听</string>
+    <string name="cach">缓存</string>
+    <string name="choiest">精选</string>
+    <string name="all">动画~英文</string>
+    <string name="partner">伙伴</string>
+    <string name="todo">TODO</string>
+    <string name="audio_choice">宝宝听精选</string>
+    <string name="audio_all">宝宝听中儿歌到纯音乐</string>
+</resources>
