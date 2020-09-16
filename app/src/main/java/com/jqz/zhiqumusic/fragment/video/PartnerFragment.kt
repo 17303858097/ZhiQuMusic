@@ -32,7 +32,7 @@ class PartnerFragment : LazyFragment<PartnerPresenterImpl>(),ErGeddKtConstans.Pa
     }
 
     override fun initView() {
-        initRlv()
+        initRlv()//在GitHub中进行了修改
     }
 
     override fun getLayoutId(): Int {
